@@ -16,7 +16,7 @@ try {
 
     $version = $pdo->query('SELECT VERSION()')->fetchColumn();
 
-    echo "MySQL 连接成功！ " 。$version . '<br>';
+    echo "MySQL 连接成功！ " . $version . '<br>';
 
     $stmt = $pdo->query("SELECT * FROM users");
 
