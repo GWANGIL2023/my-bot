@@ -18,17 +18,6 @@ try {
 
     echo "MySQL 连接成功！ " . $version . '<br>';
 
-    $stmt = $pdo->query("SELECT * FROM users");
-
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($users as $user) {
-        echo $user['id'] . ' - ';
-        echo $user['name'] . ' - ';
-        echo $user['pass'] . ' - ';
-        echo $user['email'] . '<br>';
-    }
-
     $name = $_GET['name'] ?? '';
 
     $stmt = $pdo->prepare(
