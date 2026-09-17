@@ -14,7 +14,9 @@ try {
     // 设置错误模式
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    echo "MySQL 连接成功！" . '<br>';
+    $version = $pdo->query('SELECT VERSION()')->fetchColumn();
+
+    echo "MySQL 连接成功！ " 。$version . '<br>';
 
     $stmt = $pdo->query("SELECT * FROM users");
 
