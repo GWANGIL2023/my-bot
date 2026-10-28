@@ -1,0 +1,6 @@
+{
+    "name": "my-bot",
+    "require": {
+        "vlucas/phpdotenv": "^5.8"
+    }
+}
