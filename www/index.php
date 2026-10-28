@@ -30,7 +30,16 @@ try {
     exit('数据库连接失败');
 }
 
-$stmt = $pdo->query('SELECT 1');
-$result = $stmt->fetch();
+$stmt = $pdo->query(
+    'SELECT id, username, email, age, created_at
+     FROM users ORDER BY id DESC'
+);
 
-var_dump($result);
+$users = $stmt->fetchAll();
+
+header('Content-Type: application/json; charset=utf-8');
+
+echo json_encode(
+    $users,
+    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+);
