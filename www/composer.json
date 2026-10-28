@@ -2,6 +2,7 @@
     "name": "www/my-bot",
     "require": {
         "vlucas/phpdotenv": "^5.8",
-        "altorouter/altorouter": "^2.0"
+        "altorouter/altorouter": "^2.0",
+        "firebase/php-jwt": "^7.2"
     }
 }
