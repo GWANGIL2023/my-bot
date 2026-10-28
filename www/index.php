@@ -1,8 +1,10 @@
 <?php
+declare(strict_types=1);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
+
 
 // 加载项目根目录的 .env 文件
 $dotenv = Dotenv::createImmutable(__DIR__);
@@ -30,16 +32,60 @@ try {
     exit('数据库连接失败');
 }
 
-$stmt = $pdo->query(
-    'SELECT id, username, email, age, created_at
-     FROM users ORDER BY id DESC'
-);
+$router = new AltoRouter();
 
-$users = $stmt->fetchAll();
+// 首页
+$router->map('GET', '/', function () {
+    echo 'Hello PHP!';
+}, 'home');
 
-header('Content-Type: application/json; charset=utf-8');
+// 用户列表
+$router->map('GET', '/users', function () {
+    echo '用户列表';
+}, 'users');
 
-echo json_encode(
-    $users,
-    JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
-);
+// 用户详情，ID 必须是整数
+$router->map('GET', '/users/[i:id]', function ($id) {
+    header('Content-Type: application/json; charset=utf-8');
+
+    echo json_encode([
+        'id' => $id,
+        'username' => 'zhangsan',
+    ], JSON_UNESCAPED_UNICODE);
+}, 'user.detail');
+
+// API 示例
+$router->map('GET', '/api/ping', function () {
+    header('Content-Type: application/json; charset=utf-8');
+
+    echo json_encode([
+        'code' => 200,
+        'message' => 'pong',
+    ], JSON_UNESCAPED_UNICODE);
+}, 'api.ping');
+
+// POST 请求
+$router->map('POST', '/api/users', function () {
+    header('Content-Type: application/json; charset=utf-8');
+
+    $username = $_POST['username'] ?? '';
+
+    echo json_encode([
+        'code' => 200,
+        'username' => $username,
+    ], JSON_UNESCAPED_UNICODE);
+}, 'api.users.create');
+
+// 匹配并执行路由
+$match = $router->match();
+
+if ($match && is_callable($match['target'])) {
+    call_user_func_array(
+        $match['target'],
+        $match['params']
+    );
+} else {
+    http_response_code(404);
+    echo '404 Not Found';
+}
+
