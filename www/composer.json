@@ -1,6 +1,7 @@
 {
-    "name": "my-bot",
+    "name": "www/my-bot",
     "require": {
-        "vlucas/phpdotenv": "^5.8"
+        "vlucas/phpdotenv": "^5.8",
+        "altorouter/altorouter": "^2.0"
     }
 }
